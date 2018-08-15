@@ -12,21 +12,25 @@ let { buildSchema } = require('graphql');
 
 let schema = buildSchema(`
   type Query {
-    getLebron: lebron
+    getLebronNews: [lebron]
   }
 
   type lebron{
-    name: String
-    team: String
+    title: String
+    credibleNewsSource: String
   }
 `);
 
 
 let root = {
-  getLebron: {
+  getLebronNews: [{
     title: "reasons why lebron is better than jordan",
     credibleNewsSource: "https://www.forbes.com/sites/leighsteinberg/2018/05/31/5-reasons-why-lebron-is-the-greatest-of-all-time/"
-  }
+  },
+  {
+    title: "reasons why lebron is better than steph curry",
+    credibleNewsSource: "https://www.forbes.com/sites/leighsteinberg/2018/05/31/5-reasons-why-lebron-is-the-greatest-of-all-time/"
+  }]
 };
 
 var app = express();
