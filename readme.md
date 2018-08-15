@@ -1,0 +1,3 @@
+- get submission object
+- build schema off of that 
+- build resolver
