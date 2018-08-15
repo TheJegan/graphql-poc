@@ -6,6 +6,28 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let graphqlHTTP = require('express-graphql');
+let { buildSchema } = require('graphql');
+
+
+let schema = buildSchema(`
+  type Query {
+    getLebron: lebron
+  }
+
+  type lebron{
+    name: String
+    team: String
+  }
+`);
+
+
+let root = {
+  getLebron: {
+    title: "reasons why lebron is better than jordan",
+    credibleNewsSource: "https://www.forbes.com/sites/leighsteinberg/2018/05/31/5-reasons-why-lebron-is-the-greatest-of-all-time/"
+  }
+};
 
 var app = express();
 
@@ -20,7 +42,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/graphql', usersRouter)
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
+}));
+
+
+// app.use('/graphql', usersRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
